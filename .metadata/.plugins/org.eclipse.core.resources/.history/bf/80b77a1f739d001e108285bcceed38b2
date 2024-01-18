@@ -1,0 +1,42 @@
+package com.AddImage;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
+
+/**
+ * Servlet implementation class imageUploadToBD
+ */
+@WebServlet("/imageUploadToBD")
+public class imageUploadToBD extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		Part file = request.getPart("image");
+		String name = request.getParameter("fullName");
+
+		System.out.println("file name " + file);
+		System.out.println(" name " + name);
+
+		try {
+
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection conn = DriverManager
+					.getConnection("jdbc:mysql://localhost:3306/test_connection?user=root&password=archit4910@");
+			
+			PreparedStatement pstmt = conn.prepareStatement("insert into imageName( imageFileName, imageBlob) value(?,?));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+}

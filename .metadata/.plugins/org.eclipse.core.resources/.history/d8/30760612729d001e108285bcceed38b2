@@ -1,0 +1,21 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>demoImage_toDB_blob.jsp</title>
+</head>
+<body>
+
+	<h1>demoImage_toDB_blob.jsp</h1>
+
+	<form action="imageUploadToBD" method="post"
+		enctype="multipart/form-data">
+
+		<lable> Select the image </lable>
+		<input type="file" name="image"> <br> <input
+			type="submit" value="imageUpload">
+	</form>
+</body>
+</html>

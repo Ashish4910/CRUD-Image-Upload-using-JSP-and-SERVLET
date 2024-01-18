@@ -1,0 +1,55 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.sql.*" %>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Image Display JSP</title>
+</head>
+<body>
+
+<%
+    // Retrieve the image ID from the request parameter
+    int imageId = 13;
+
+    // Database connection details
+    String url = "jdbc:mysql://localhost:3306/test_connection";
+    String user = "root";
+    String password = "archit4910@";
+
+    try {
+        // Load the driver
+        Class.forName("com.mysql.cj.jdbc.Driver");
+
+        // Get connection
+        Connection conn = DriverManager.getConnection(url, user, password);
+
+        // Create the query
+        String query = "SELECT imageBlob FROM imagename WHERE imageId = ?";
+        PreparedStatement psmt = conn.prepareStatement(query);
+        psmt.setInt(1, imageId);
+
+        ResultSet rs = psmt.executeQuery();
+
+        if (rs.next()) {
+            // Retrieve the image data from the database
+            byte[] imageData = rs.getBytes("imageBlob");
+
+            // Convert the byte array to base64 for inline image display
+            String base64Image = Base64.getEncoder().encodeToString(imageData);
+
+            // Output the image in an <img> tag
+            out.println("<img src='data:image/jpeg;base64," + base64Image + "' alt='Image' style='width: 200px;'>");
+        } else {
+            out.println("Image not found");
+        }
+
+        // Close the database connection
+        conn.close();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+%>
+
+</body>
+</html>
